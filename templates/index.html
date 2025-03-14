@@ -1,0 +1,45 @@
+{% extends "base.html" %} 
+
+{% block head %}
+<title>Task Smash</title>
+{% endblock %} 
+
+{% block body %}
+<div style="max-width: 900px; margin: 40px auto; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); font-family: Arial, sans-serif; background: #f9f9f9;">
+  
+  <h1 style="text-align: center; color: #333;">Task Smash 2.0</h1>
+  
+  {% if tasks | length < 1 %}
+    <h2 style="text-align: center; color: #888;">There are no tasks... Create One here!</h2>
+  {% else %}
+    <div style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; border-radius: 5px; margin-top: 10px;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <tr style="background: #007bff; color: #fff;">
+          <th style="padding: 10px; text-align: left;">Task</th>
+          <th style="padding: 10px; text-align: left;">Added</th>
+          <th style="padding: 10px; text-align: left;">Actions</th>
+        </tr>
+        {% for task in tasks %}
+        <tr style="border-bottom: 1px solid #ddd;">
+          <td style="padding: 10px;">{{task.content}}</td>
+          <td style="padding: 10px;">{{task.created.strftime("%Y-%m-%d")}}</td>
+          <td style="padding: 10px;">
+              <a href="/delete/{{task.id}}" style="color: red; text-decoration: none; font-weight: bold;">Delete</a>
+              &nbsp; | &nbsp;
+              <a href="/edit/{{task.id}}" style="color: green; text-decoration: none; font-weight: bold;">Edit</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  {% endif %}
+  
+  <form action="/" method="POST" style="display: flex; justify-content: center; margin-top: 20px;">
+    <input type="text" name="content" id="content" placeholder="Enter task..." 
+      style="padding: 10px; width: 70%; border: 1px solid #ccc; border-radius: 4px; font-size: 16px;">
+    <input type="submit" value="Add Task" id="btn_add" 
+      style="padding: 10px 20px; background: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">
+  </form>
+
+</div>
+{% endblock %}
